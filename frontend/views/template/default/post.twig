@@ -1,0 +1,96 @@
+﻿{{ use('yii/widgets/ActiveForm') }}
+{{ use('yii/captcha/Captcha') }}
+{% set comment_message = app.session.getFlash('comment-message') %}
+			{% if(comment_message) %}
+                <div class="{{ comment_message.class }}">{{ comment_message.text }}</div>
+            {% endif %}
+<div class="post-border shadow">
+    <div class="panel panel-default post-panel">
+        <div class="panel-body">
+            <div class="post-title">{{ html.a(model.title,{0: 'post/view','id': model.id,'title':model.title}) | raw }}</div>
+            <!-- -->
+            {% set postCategories = postModel.getSelectedCategoriesTitle(model.id,'array') %}
+            {% if(postCategories) %}
+                <span class="post-detail">
+					<span class="fa fa-list"></span>
+                    {% for category in postCategories %}
+                        <a href="{{ this.params.url }}site/index/category/{{ category.id }}">{{ category.title }}</a><delimiter>،</delimiter>
+                    {% endfor %}
+				</span>
+            {% endif %}
+            <span class="post-detail">
+				<span class="fa fa-user"></span>
+                {{ model.username }}
+			</span>
+			<span class="post-detail">
+				<span class="fa fa-calendar"></span>
+                {{ pdate(model.create_time) }}
+			</span>
+			<span class="post-detail">
+				<span class="fa fa-comment-o"></span>
+                {{ model.comment_count }}
+			</span>
+			<span class="post-detail">
+				<span class="fa fa-eye "></span>
+                {{ model.view }}
+			</span>
+            <div class="clear"></div>
+            <!-- -->
+            <div class="post-text">
+                {{ model.short_text | raw }}
+                <br>
+                {{ model.more_text | raw }}
+                {% if(model.tags) %}
+                <hr class="more-hr">
+                <div class="post-tags"><span class="fa fa-tags"></span>
+                    {% for tag in model.tags %}
+                        <a href="{{ this.params.url }}site/index/tag/{{ tag }}">{{ tag }}</a><delimiter>،</delimiter>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% if(comments) %}
+<div class="post-border shadow">
+    <div class="panel panel-default post-panel">
+        <div class="panel-body">
+            <div class="post-title">نظرات</div>
+            <div class="post-text">
+                <!-- -->
+                    <br>
+                    {% for c in comments %}
+                        <div class="comment-title"><span>{{ c.name }}</span> در تاریخ <span>{{ pdate(c.create_time) }}</span> نوشته: </div>
+                        <div class="comment-text">{{ c.text }}</div>
+                        {% if(c.reply_text) %}
+                            <div class="comment-reply"><span>پاسخ مدیر: </span> {{ c.reply_text }}</div>
+                        {% endif %}
+                        <hr class="more-hr">
+                    {% endfor %}
+                <!-- -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+<div class="post-border shadow">
+    <div class="panel panel-default post-panel">
+        <div class="panel-body">
+            <div class="post-title">ارسال نظر</div>
+            <div class="post-text">
+<!-- -->
+                {% set form = active_form_begin() %}
+                {{ form.field(comment,'name').textInput({'maxlength': true,'class': 'input margin-17','placeholder': 'نام'}) | raw }}
+                {{ form.field(comment,'email').textInput({'maxlength': true,'class': 'input margin-17','placeholder': 'ایمیل','dir': 'ltr'}) | raw }}
+                {{ form.field(comment,'text').textArea({'rows': '6' ,'class': 'input margin-17','placeholder': 'متن...'}) | raw }}
+                {{ form.field(comment,'captcha').widget('yii\\captcha\\Captcha',{'template': '<div class="captcha-img">{image}</div><div class="captcha-txt">{input}</div>'}) | raw }}
+                {{ html.submitButton('ارسال نظر',{'class': 'submit'}) | raw }}
+                {% set form = active_form_end() %}
+<!-- -->
+
+            </div>
+        </div>
+    </div>
+</div>
+

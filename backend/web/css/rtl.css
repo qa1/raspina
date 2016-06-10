@@ -1,0 +1,148 @@
+@font-face{font-family:'byekan';src:url(../fonts/yekan/wYekan.eot);src:url(../fonts/yekan/wYekan.eot?#iefix) format("embedded-opentype"),url(../fonts/yekan/wYekan.woff) format("woff"),url(../fonts/yekan/wYekan.ttf) format("truetype");font-weight:400;font-style:normal}
+html,body {font-family: byekan;text-align:right;direction: rtl;}
+
+span {font-family: byekan;direction: rtl;}
+.logo-mini {font-family: 'WMitra', sans-serif}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: byekan;
+    font-weight: bold;
+}
+
+.sidebar-menu li.header {
+    text-align: right;
+}
+
+.sidebar-menu {
+    direction: rtl;
+    text-align: right;
+}
+
+.sidebar-menu li > a > .fa-angle-left {
+    /*padding: 0px;*/
+    /*margin-left: 10px;*/
+    /*margin-top: -16px;*/
+    left:10px;
+    top:12px;
+    position: absolute;
+}
+
+.skin-blue .sidebar-menu > li > a {
+
+}
+
+.skin-blue .sidebar-menu > li:hover > a,
+.skin-blue .sidebar-menu > li.active > a {
+    color: #ffffff;
+    background: #1e282c;
+    border-right-color: #3c8dbc;
+}
+.skin-blue .sidebar-menu > li > .treeview-menu {
+    margin: 0px;
+    padding-right: 15px;
+}
+
+.pull-left-margin {
+    margin-left: 10px;
+}
+
+.content-header {
+    direction: rtl;
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.content-header > .breadcrumb {
+    float: right;
+    right: 10px;
+    top: 37px;
+}
+
+.info-box-icon {
+    float: right;
+    margin-left: 10px;
+}
+.info-box-content {
+    margin-left: 0px;
+    text-align: right;
+}
+
+.box-title {
+    float: right;
+}
+
+table th{text-align: right}
+.summary {display: none;}
+
+.clear {clear: both}
+.center-text {text-align: center}
+.display-none {display: none}
+.table a {margin-left: 5px;}
+
+table.detail-view th {
+    width: 15%;
+}
+
+table.detail-view td {
+    width: 85%;
+}
+
+.pagination {float: left; border-radius: 0px;}
+.pagination li{float: right;border-radius: 0px;}
+
+.pagination > li:first-child > a, .pagination > li:first-child > span {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-left: none;
+    }
+
+.pagination > li:last-child > a, .pagination > li:last-child > span {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.pagination .prev {float: right;border-radius: 0px;}
+.post-create-nav {width: 96%; margin-right: 2%; margin-top: 5px; margin-bottom: 5px}
+.title-mini-create {display: none; padding: 3px 0px 3px 0px;}
+.breadcrumb {background: #FFFFFF;}
+.fa-bulk-button {padding-top: 2px; padding-bottom: 3px;}
+.fa-br {margin-bottom: 12px;}
+.alert-danger button{ display: none}
+.alert-success button{ display: none}
+.input-ltr-dir {direction: ltr; text-align: left}
+
+/*.input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group > .btn, .input-group-btn:last-child > .dropdown-toggle, .input-group-btn:first-child > .btn:not(:first-child), .input-group-btn:first-child > .btn-group:not(:first-child) > .btn {*/
+
+/*}*/
+
+/*.input-group-btn .btn-primary{*/
+    /*border-top-right-radius:0px; border-bottom-right-radius:0px;*/
+    /*border-top-left-radius:4px; border-bottom-left-radius:4px;*/
+    /*text-align: right;*/
+    /*direction: ltr;*/
+/*}*/
+
+/*.input-group-btn button{margin: 0px 5px 0px 5px ; }*/
+.input-group-btn button{direction: rtl}
+.input-group-btn .btn-file{height: 35px; direction: rtl}
+.input-group {direction: ltr}
+.file-caption-name {float: left;}
+.form-control {height: 35px;}
+.upload-box-link {width: 100%; text-align: left; direction: ltr; font-size: 11px; padding: 2px;}
+.signout {color: #ffffff; float: left; font-size: 22px; padding: 15px 0px 0px 15px; cursor: pointer;}
+.signout:hover{color: #eeeeee;}
+.last-visitors {}
+.last-visitors div{float: right; overflow: hidden;; text-align: right}
+.last-visitors{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 191px;
+}
+.web-status {line-height: 30px;}
+.status-title {background: #f4f4f4; padding: 2px 8px 8px 8px; border-radius: 3px; font-weight: bold; color: #666666}
+.status-box {background: #f4f4f4; padding-right: 8px; border-radius: 3px; margin-bottom: 15px;}
+.status-box span{padding-right: 0px;}

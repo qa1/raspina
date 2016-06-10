@@ -1,0 +1,5 @@
+﻿{{ use('/yii/widgets/ListView') }}
+{{ list_view_widget({
+	'dataProvider': dataProvider,
+	'itemView': 'post_item.twig',
+}) | raw}}

@@ -1,0 +1,134 @@
+<?php
+namespace frontend\controllers;
+
+use Yii;
+use yii\data\ActiveDataProvider;
+use yii\filters\VerbFilter;
+
+/**
+ * Site controller
+ */
+class SiteController extends BaseController
+{
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function actions()
+    {
+        $this->layout = $this->setting['layout'];
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
+        ];
+    }
+
+    public function actionRss()
+    {
+        $this->layout = 'blank.php';
+
+        $posTable = \backend\models\Post::tableName();
+        $userTable = \common\models\User::tableName();
+
+        $query = new Yii\db\Query();
+        $posts = $query->select(["p.id","p.title","p.short_text","p.create_time","u.username"])->
+        from("{$posTable} As p")->
+        leftJoin("{$userTable} AS u","p.author_id = u.id")->
+        groupBy("p.id")->
+        orderBy('p.pin_post DESC,p.id DESC')->
+        where("p.status=1")->limit($this->setting['page_size'])->all();
+        return $this->render('../../site/rss.php', [
+            'posts' => $posts
+        ]);
+    }
+
+    /**
+     * Displays homepage.
+     *
+     * @return mixed
+     */
+    public function actionIndex()
+    {
+        $query = new \yii\db\Query();
+
+        $posTable = \backend\models\Post::tableName();
+        $userTable = \common\models\User::tableName();
+        $commentTable = \backend\models\Comment::tableName();
+        $postCategoryTable = \backend\models\PostCategory::tableName();
+
+        // update posts status
+        $query->createCommand()->update($posTable,['status' => 1],"status = 2 AND create_time <=" . time())->execute();
+
+        // select posts
+        $query->select(["p.id","p.title","p.short_text","p.create_time","p.view","u.username","COUNT(DISTINCT c.id) AS comment_count","IF(p.more_text IS NOT NULL,'1','0') AS `more`","GROUP_CONCAT(DISTINCT pc.category_id) AS category_ids"])->
+        from("{$posTable} As p")->
+        leftJoin("{$userTable} AS u","p.author_id = u.id")->
+        leftJoin("{$commentTable} AS c","p.id = c.post_id AND c.status = 1")->
+        leftJoin("{$postCategoryTable} AS pc","p.id = pc.post_id")->
+        groupBy("p.id")->
+        orderBy('p.pin_post DESC,p.id DESC')->
+        where("p.status=1");
+
+        $request = Yii::$app->request->get();
+
+        if(isset($request['category']))
+        {
+            $query->andWhere("pc.category_id={$request['category']}");
+        }
+
+        if(isset($request['tag']))
+        {
+            $query->andWhere("p.tags LIKE '%{$request['tag']}%'");
+        }
+
+        if(!empty($request['Site']['search']))
+        {
+            $query->andWhere("p.title LIKE '%{$request['Site']['search']}%' OR p.short_text LIKE '%{$request['Site']['search']}%' OR p.more_text LIKE '%{$request['Site']['search']}%'");
+        }
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => $this->setting['page_size']
+            ]
+        ]);
+
+        return $this->render('posts.twig', [
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    public function action404()
+    {
+        return $this->render('404.twig');
+    }
+
+    /**
+     * Displays about page.
+     *
+     * @return mixed
+     */
+    public function actionAbout()
+    {
+        return $this->render('about');
+    }
+}
