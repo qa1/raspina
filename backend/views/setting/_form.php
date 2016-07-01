@@ -28,7 +28,7 @@ use kartik\select2\Select2;
         'options' => ['multiple' => true, 'placeholder' => Yii::t('app', 'Insert Keywords')],
         'pluginOptions' => [
             'tags' => true,
-            'maximumInputLength' => 15
+            'maximumInputLength' => 100
         ],
     ]); ?>
 

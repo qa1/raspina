@@ -40,7 +40,13 @@ class ContactSearch extends Contact
      */
     public function search($params)
     {
-        $query = Contact::find()->orderBy('id DESC');
+        $request = Yii::$app->request->get();
+
+        $query = Contact::find();
+        if(!isset($request['sort']))
+        {
+            $query->orderBy('id DESC');
+        }
         $pageSize = Yii::$app->setting->pageSize();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

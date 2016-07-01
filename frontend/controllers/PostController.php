@@ -53,14 +53,11 @@ class PostController extends BaseController
         $posTable = \backend\models\Post::tableName();
         $userTable = \common\models\User::tableName();
         $commentTable = \backend\models\Comment::tableName();
-        $postCategoryTable = \backend\models\PostCategory::tableName();
-
-
 
         $model->select(["p.*","u.username","COUNT(c.id) AS comment_count","IF(p.more_text IS NOT NULL,'1','0') AS `more`"])->
         from("{$posTable} As p")->leftJoin("{$userTable} AS u","p.author_id = u.id")->
         leftJoin("{$commentTable} AS c","p.id = c.post_id  AND c.status = 1")->
-        where("p.id = {$id} AND p.title = '{$title}'");
+        where("p.id = {$id} AND p.title = '{$title}' AND p.status=1");
         $model = $model->one();
 
         if(empty($model['title']))
@@ -68,21 +65,25 @@ class PostController extends BaseController
             return $this->redirect(['site/404']);
         }
 
-        $query->createCommand()->update($posTable,["view" => $model['view'] + 1],"id=" . $id)->execute();
+        if(!\backend\models\Visitors::isBot())
+        {
+            $query->createCommand()->update($posTable,["view" => $model['view'] + 1],"id=" . $id)->execute();
+            $model['view'] = $model['view'] + 1;
+        }
 
         if($model['tags'])
         {
             $model['tags'] = explode(',',$model['tags']);
         }
 
+
         if($model['keywords'])
         {
-            Yii::$app->view->params['keywords'] .= ',' . $model['keywords'];
+            Yii::$app->view->params['moreKeywords'] = ',' . $model['keywords'];
         }
-
         if($model['meta_description'])
         {
-            Yii::$app->view->params['description'] .= ',' . $model['meta_description'];
+            Yii::$app->view->params['moreDescription'] = '-' . $model['meta_description'];
         }
 
         $comment = new \backend\models\Comment;
@@ -95,7 +96,6 @@ class PostController extends BaseController
 
         if($comment->load($request) && $comment->save())
         {
-
             \Yii::$app->getSession()->setFlash('comment-message', [
                 'text' => Yii::t('app','Comment Successfully Sent'),
                 'class' => 'success'

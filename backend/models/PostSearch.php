@@ -42,7 +42,12 @@ class PostSearch extends Post
      */
     public function search($params)
     {
-        $query = Post::find()->orderBy('create_time DESC');
+        $request = Yii::$app->request->get();
+        $query = Post::find();
+        if(!isset($request['sort']))
+        {
+            $query->orderBy("create_time DESC");
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

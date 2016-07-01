@@ -8,7 +8,6 @@
         <?php foreach ((array)$posts as $p): ?>
         <item>
             <title><?= $p['title'] ?></title>
-            <description><?= $p['short_text'] ?></description>
             <link><?= $this->params['url'] ?>post/view/<?= $p['id'] ?>/<?= $p['title'] ?>.html</link>
             <pubDate><?= date('l, F d, Y', $p['create_time']) ?></pubDate>
         </item>

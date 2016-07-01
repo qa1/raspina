@@ -98,8 +98,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        $statusQuery = $visitorsQuery = $filesQuery = new \yii\db\Query();
-        $status = $statusQuery->select('*')->from(\backend\models\Status::tableName())->one();
+        $visitorsQuery = $filesQuery = new \yii\db\Query();
         $visitors = new \backend\models\Visitors;
         $visitorsDataProvider = new ActiveDataProvider([
             'query' => $visitors->find()->orderBy('id DESC')->limit(20),
@@ -122,7 +121,6 @@ class SiteController extends Controller
         ]);
 
         return $this->render('index',[
-            'status' => $status,
             'visitors' => $visitorsDataProvider,
             'chart' => $visitors->chart(),
             'posts' => $postsDataProvider,

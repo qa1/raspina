@@ -13,6 +13,8 @@ AppAsset::register($this);
   <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="robots" content="noindex">
+    <meta name="googlebot" content="noindex">
     <?= Html::csrfMetaTags() ?>
     <title>رسپینا - <?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>

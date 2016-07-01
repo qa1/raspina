@@ -1,5 +1,4 @@
 <?php
-
 /* @var $this yii\web\View */
 use yii\grid\GridView;
 $this->title = Yii::t('app','Statistics and information');
@@ -37,7 +36,7 @@ $this->registerJsFile(Yii::$app->homeUrl . 'js/visitor_chart.js');
                         'attribute' => 'location',
                         'format' => 'raw',
                         'value' => function($visitors){
-                            return '<a href="'.$visitors->location.'" target="_blank">['.Yii::t('app','View').']</a>';
+                            return '<a href="'.$visitors->location.'" target="_blank" data-toggle="tooltip" title="'.urldecode(rtrim($visitors->location,'/')).'">['.Yii::t('app','View').']</a>';
                         }
                     ],
                     'os',
@@ -55,11 +54,12 @@ $this->registerJsFile(Yii::$app->homeUrl . 'js/visitor_chart.js');
         <div class="status-box">
             <span>
                 <div><?= Yii::t('app','Today') ?>: <span><?= Yii::$app->date->pdate(time(),'Y/MM/dd') ?></span></div>
-                <div><?= Yii::t('app','Today Visitors') ?>: <span><?= $status['today_visitors'] ?></span></div>
-                <div><?= Yii::t('app','Yesterday Visitors') ?>: <span><?= $status['yesterday_visitors'] ?></span></div>
-                <div><?= Yii::t('app','This Month Visitors') ?>: <span><?= $status['this_month_visitors'] ?></span></div>
-                <div><?= Yii::t('app','Last Month Visitors') ?>: <span><?= $status['last_month_visitors'] ?></span></div>
-                <div><?= Yii::t('app','Total Visitors') ?>: <span><?= $status['total_visitors'] ?></span></div>
+                <div><?= Yii::t('app','Today Visit') ?>: <span><?= $chart['today_visit'] ?></span></div>
+                <div><?= Yii::t('app','Today Visitors') ?>: <span><?= $chart['today_visitors'] ?></span></div>
+                <div><?= Yii::t('app','Yesterday Visit') ?>: <span><?= $chart['yesterday_visit'] ?></span></div>
+                <div><?= Yii::t('app','Yesterday Visitors') ?>: <span><?= $chart['yesterday_visitors'] ?></span></div>
+                <div><?= Yii::t('app','This Month Visit') ?>: <span><?= $chart['this_month_visit'] ?></span></div>
+                <div><?= Yii::t('app','This Month Visitors') ?>: <span><?= $chart['this_month_visitors'] ?></span></div>
              </span>
         </div>
     </div>
@@ -98,7 +98,12 @@ $this->registerJsFile(Yii::$app->homeUrl . 'js/visitor_chart.js');
                     'columns' => [
                         [
                             'attribute' => 'title',
-                            'value' => 'title',
+                            'format' => 'raw',
+                            'value' => function($postModel){
+//                                {{ html.a(model.title,{0: 'post/view','id': model.id,'title':model.title}) | raw }}
+//                                ['id' => $postModel->id, 'title' => $postModel->title]
+                                return \yii\helpers\Html::a($postModel->title,['post/view','id'=>$postModel->id]);
+                            },
                         ],
                         [
                             'attribute' => 'view',

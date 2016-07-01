@@ -27,9 +27,9 @@ class setting extends Component
     {
         $query = new Query;
         $setting = $query->select('*')->from('{{%setting}}')->limit(1)->one();
-        $setting['templateDir'] = '..\\' . Yii::getAlias('@template') . '\\' . $setting['template'] . '\\';
+        $setting['templateDir'] = '..' . DIRECTORY_SEPARATOR . Yii::getAlias('@template') . DIRECTORY_SEPARATOR . $setting['template'] . DIRECTORY_SEPARATOR;
         $setting['templateUrl'] = $setting['url'] . Yii::getAlias('@templateUrl') . '/' .$setting['template'] . '/';
-        $setting['layout'] = $setting['templateDir'] . '\\main.twig';
+        $setting['layout'] = $setting['templateDir'] . DIRECTORY_SEPARATOR . 'main.twig';
 
         return $setting;
     }

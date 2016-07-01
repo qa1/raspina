@@ -40,8 +40,12 @@ class FileSearch extends File
      */
     public function search($params)
     {
-        $query = File::find()->orderBy('id DESC');
-
+        $request = Yii::$app->request->get();
+        $query = File::find();
+        if(!isset($request['sort']))
+        {
+            $query->orderBy('id DESC');
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

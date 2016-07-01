@@ -79,7 +79,7 @@ class SiteController extends BaseController
         $query->createCommand()->update($posTable,['status' => 1],"status = 2 AND create_time <=" . time())->execute();
 
         // select posts
-        $query->select(["p.id","p.title","p.short_text","p.create_time","p.view","u.username","COUNT(DISTINCT c.id) AS comment_count","IF(p.more_text IS NOT NULL,'1','0') AS `more`","GROUP_CONCAT(DISTINCT pc.category_id) AS category_ids"])->
+        $query->select(["p.pin_post","p.id","p.title","p.short_text","p.create_time","p.view","u.username","COUNT(DISTINCT c.id) AS comment_count","IF(p.more_text != '','1','0') AS `more`","GROUP_CONCAT(DISTINCT pc.category_id) AS category_ids"])->
         from("{$posTable} As p")->
         leftJoin("{$userTable} AS u","p.author_id = u.id")->
         leftJoin("{$commentTable} AS c","p.id = c.post_id AND c.status = 1")->
@@ -93,6 +93,15 @@ class SiteController extends BaseController
         if(isset($request['category']))
         {
             $query->andWhere("pc.category_id={$request['category']}");
+
+            $catQuery = new \yii\db\Query();
+            $categoryTable = \backend\models\Category::tableName();
+            $catResult = $catQuery->select("id")->from("{$categoryTable}")->where("id={$request['category']} AND title = '{$request['title']}'")->one();
+            if(empty($catResult))
+            {
+                return $this->redirect(['site/404']);
+            }
+			Yii::$app->view->title .= ' - ' . $request['title'];
         }
 
         if(isset($request['tag']))
@@ -120,15 +129,5 @@ class SiteController extends BaseController
     public function action404()
     {
         return $this->render('404.twig');
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return mixed
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
     }
 }

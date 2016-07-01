@@ -14,7 +14,7 @@
                 <span class="post-detail">
 					<span class="fa fa-list"></span>
                     {% for category in postCategories %}
-                        <a href="{{ this.params.url }}site/index/category/{{ category.id }}">{{ category.title }}</a><delimiter>،</delimiter>
+						{{ html.a(category.title,{0: 'site/index','category': category.id,'title':category.title}) | raw }}<delimiter>،</delimiter>
                     {% endfor %}
 				</span>
             {% endif %}
@@ -40,6 +40,9 @@
                 {{ model.short_text | raw }}
                 <br>
                 {{ model.more_text | raw }}
+                {% if(model.update_time) %}
+                <span style="font-style: italic">این مطلب آخرین بار در تاریخ  {{ pdate(model.update_time) }}  ویرایش شده است.</span>
+                {% endif %}
                 {% if(model.tags) %}
                 <hr class="more-hr">
                 <div class="post-tags"><span class="fa fa-tags"></span>

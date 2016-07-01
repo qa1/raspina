@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'title',
                 'value' => 'title',
-                'contentOptions' => ['width' => '60%']
+                'contentOptions' => ['width' => '50%']
             ],
             [
                 'attribute' => 'status',
@@ -26,6 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'contentOptions' => ['width' => '15%'],
                 'filter' => $model->postStatus()
+            ],
+            [
+                'attribute' => 'view',
+                'contentOptions' => ['width' => '10%'],
+                'filter' => ''
             ],
             [
                 'attribute' => 'create_time',

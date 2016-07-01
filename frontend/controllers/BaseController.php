@@ -12,23 +12,32 @@ class BaseController extends Controller
 
     public function init()
     {
+
+        // filter out garbage requests
+        $uri = Yii::$app->request->url;
+        if (strpos($uri, 'favicon.ico') || strpos($uri, 'robots') || strpos($uri, 'bootstrap.min.css.map'))
+            Yii::$app->end();
+        // do the other initialization stuff
+
+
         $this->setting = \Yii::$app->setting->get();
         if(!defined('DATE_FROMAT'))
         {
             define('DATE_FROMAT',$this->setting['date_format']);
         }
         Yii::$app->view->params['templateUrl'] = $this->setting['templateUrl'];
-        Yii::$app->view->params['templateDir'] = $this->setting['templateDir'];
 
+        Yii::$app->view->params['templateDir'] = $this->setting['templateDir'];
 
         if(!empty(Yii::$app->view->title))
         {
             Yii::$app->view->title = ' - ' . Yii::$app->view->title;
         }
         Yii::$app->view->title = $this->setting['title'] . Yii::$app->view->title;
-
         Yii::$app->view->params['siteTitle'] = $this->setting['title'];
+
         Yii::$app->view->params['keywords'] = $this->setting['keyword'];
+
         Yii::$app->view->params['description'] = $this->setting['description'];
         Yii::$app->view->params['url'] = $this->setting['url'];
 
@@ -41,18 +50,28 @@ class BaseController extends Controller
         Yii::$app->view->params['site'] = new \frontend\models\Site;
 
         parent::init();
+
+    }
+
+    public function getViewPath()
+    {
+        return Yii::getAlias('@frontend/views/template/') . $this->setting['template'] . '/';
     }
 
     public function render($view, $params = [])
     {
+        if(Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id == 'rss')
+        {
+            return parent::render($view,$params);
+        }
+
         // visit +
-        $status = new \backend\models\Status;
-        $status->visit();
-
-        $visitors = new \backend\models\Visitors;
-        $visitors->add();
-
-        $view = $this->setting['templateDir'] . $view;
+        $exception = Yii::$app->errorHandler->exception;
+        if(empty($exception))
+        {
+            $visitors = new \backend\models\Visitors;
+            $visitors->add();
+        }
         return parent::render($view,$params);
     }
 }

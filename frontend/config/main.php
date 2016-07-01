@@ -39,18 +39,25 @@ return [
             'showScriptName' => false,
             'rules' => [
                 'file/download/<id:\w+>' => 'file/download',
-//                'site/index/<category:\d+>' => 'site/index',
-                'site/index/category/<category:\d+>/<page:\d+>/<per-page:\d+>' => 'site/index',
-                'site/index/category/<category:\d+>' => 'site/index',
                 'site/index/tag/<tag>/<page:\d+>/<per-page:\d+>' => 'site/index',
                 'site/index/tag/<tag>' => 'site/index',
-                'site/index/<page:\d+>/<per-page:\d+>' => 'site/index',
                 'site/404.html' => 'site/404',
                 [
                     'pattern' => 'post/view/<id:\d+>/<title>',
                     'route' => 'post/view',
                     'suffix' => '.html'
                 ],
+                [
+                    'pattern' => 'site/index/category/<category:\d+>/<title>/<page:\d+>/<per-page:\d+>',
+                    'route' => 'site/index',
+                    'suffix' => '.html'
+                ],
+                [
+                    'pattern' => 'site/index/category/<category:\d+>/<title>',
+                    'route' => 'site/index',
+                    'suffix' => '.html'
+                ],
+                'site/index/<page:\d+>/<per-page:\d+>' => 'site/index',
             ]
         ]
     ],

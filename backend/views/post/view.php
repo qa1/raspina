@@ -40,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label'  => Yii::t('app', 'Status'),
                 'value'  => $postStatus[$model->status],
             ],
+            'view:ntext',
             [
                 'label'  => Yii::t('app', 'Create Time'),
                 'value'  => Yii::$app->date->pdate($model->create_time),

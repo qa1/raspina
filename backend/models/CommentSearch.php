@@ -43,9 +43,15 @@ class CommentSearch extends Comment
     {
         $pageSize = \Yii::$app->setting->pageSize();
 
+        $request = Yii::$app->request->get();
         $query = Comment::find()->alias('comment');
 
-        $query->joinWith('post')->orderBy('id DESC');
+        $query->joinWith('post');
+        if(!isset($request['sort']))
+        {
+            $query->orderBy('id DESC');
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => ['pageSize' => $pageSize]

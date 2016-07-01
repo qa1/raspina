@@ -24,13 +24,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'options' => ['rows' => 6],
         'language' => 'fa',
         'clientOptions' => [
+            'directionality' => "rtl",
+            'relative_urls' => false,
+            'entity_encoding' => "utf-8",
             'plugins' => [
                 "advlist autolink lists link charmap print preview anchor",
                 "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table contextmenu paste"
+                "insertdatetime media table contextmenu paste codesample link image"
             ],
 
-            'toolbar' => "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+            'toolbar' => "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | codesample"
         ]
     ]);?>
 

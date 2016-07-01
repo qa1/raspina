@@ -44,8 +44,15 @@ class CategoryController extends Controller
      */
     public function actionIndex()
     {
+        $request = Yii::$app->request->get();
+        $query = Category::find();
+        if(!isset($request['sort']))
+        {
+            $query->orderBy('id DESC');
+        }
+
         $dataProvider = new ActiveDataProvider([
-            'query' => Category::find()->orderBy('id DESC'),
+            'query' => $query,
         ]);
 
         return $this->render('index', [

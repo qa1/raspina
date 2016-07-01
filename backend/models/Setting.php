@@ -62,7 +62,8 @@ class Setting extends \yii\db\ActiveRecord
 
     public function getTemplatesName()
     {
-        $scandir = scandir(Yii::$app->basePath. '../../frontend/views/template');
+        $dir = Yii::getAlias('@frontend/views/template/');
+        $scandir = scandir($dir);
         $templatesName = [];
         foreach ((array) $scandir as $s)
         {

@@ -16,8 +16,8 @@
 	<meta charset="{{app.charset}}">
 	{{ html.csrfMetaTags() | raw }}
 	<title>{{ html.encode(this.title) }}</title>
-	<meta name="description" content="{{ this.params.description }}">
-	<meta name="keywords" content="{{ this.params.keywords }}">
+	<meta name="description" content="{{ this.params.description }}{{ this.params.moreDescription }}">
+	<meta name="keywords" content="{{ this.params.keywords }}{{ this.params.moreKeywords }}">
 	<meta name="author" content="">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=0.9, user-scalable=no" />
@@ -147,7 +147,7 @@
 				<div class="menu-title-line"></div>
 				{% for id, category in this.params.categories %}
 					<div class="cat-item">
-						<a href="{{ this.params.url }}site/index/category/{{ id }}">{{ category }}</a>
+						{{ html.a(category,{0: 'site/index','category': id,'title':category}) | raw }}
 					</div>
 				{% endfor %}
 			</div>

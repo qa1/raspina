@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\controllers;
+namespace backend\models;
 
 use Yii;
 use yii\base\Model;
@@ -41,7 +41,12 @@ class NewsletterSearch extends Newsletter
      */
     public function search($params)
     {
-        $query = Newsletter::find()->orderBy('id DESC');
+        $request = Yii::$app->request->get();
+        $query = Newsletter::find();
+        if(!isset($request['sort']))
+        {
+            $query->orderBy('id DESC');
+        }
         $pageSize = \Yii::$app->setting->pageSize();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

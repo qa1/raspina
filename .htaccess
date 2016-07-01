@@ -3,7 +3,12 @@ Options -Indexes
 <IfModule mod_rewrite.c>
   RewriteEngine on
 
-RewriteCond %{REQUEST_URI} !^public
+#RewriteCond %{HTTP_HOST} !^www\.
+#RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+#
+#RewriteCond %{REQUEST_URI} !^public
+
+
 RewriteRule (.*)requirements.php requirements.php [L]
 RewriteRule (.*)install.php install.php [L]
 RewriteRule (.*)common/files/avatar/(.*) common/files/avatar/$2 [L]

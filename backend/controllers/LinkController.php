@@ -44,8 +44,15 @@ class LinkController extends Controller
      */
     public function actionIndex()
     {
+        $request = Yii::$app->request->get();
+
+        $query =  Link::find();
+        if(!isset($request['sort']))
+        {
+            $query->orderBy('id DESC');
+        }
         $dataProvider = new ActiveDataProvider([
-            'query' => Link::find()->orderBy('id DESC'),
+            'query' => $query,
         ]);
 
         return $this->render('index', [

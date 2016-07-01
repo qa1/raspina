@@ -5,7 +5,8 @@ return [
     'timeZone' => 'Asia/Tehran',
     'components' => [
         'assetManager' => [
-            'linkAssets' => true,
+//            'linkAssets' => true,
+//            'forceCopy' => true,
         ],
         'view' => [
             'class' => 'yii\web\View',

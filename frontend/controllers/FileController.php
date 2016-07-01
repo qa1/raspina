@@ -4,18 +4,15 @@ namespace frontend\controllers;
 
 use Yii;
 use backend\models\File;
-use backend\models\FileSearch;
 use yii\db\Query;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
 
 /**
  * FileController implements the CRUD actions for File model.
  */
 class FileController extends Controller
 {
+    public static $download = 0;
     public function actionDownload($id)
     {
         $sult = Yii::$app->setting->getSult();
@@ -25,21 +22,26 @@ class FileController extends Controller
         {
             $model = File::findOne($id[0]);
 
-            if(!empty($model)) {
-                $file_path = Yii::getAlias('@file_upload') . '/' . $model->real_name . '.' . $model->extension;
-                if (file_exists($file_path))
+            if(!empty($model))
+            {
+                if(!\backend\models\Visitors::isBot())
                 {
-                    header('Content-Description: File Transfer');
-                    header("Content-Type: " . $model->content_type);
-                    header('Content-Disposition: attachment; filename="'.$model->name . '.' . $model->extension);
-                    header('Expires: 0');
-                    header('Cache-Control: must-revalidate');
-                    header('Pragma: public');
-                    header('Content-Length: ' . $model->size);
-                    readfile($file_path);
-
                     $connection = new Query;
                     $connection->createCommand()->update(File::tableName(),['download_count' => $model->download_count + 1],'id = ' . $id[0])->execute();
+                }
+
+                $file_path = Yii::getAlias('@common') . '/files/upload/' . $model->real_name . '.' . $model->extension;
+                header('Content-Description: File Transfer');
+                header("Content-Type: " . $model->content_type);
+                header('Content-Disposition: inline; filename="'.$model->name . '.' . $model->extension);
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate');
+                header('Pragma: public');
+                header('Content-Length: ' . $model->size);
+                if($this::$download == 0)
+                {
+                     readfile($file_path);
+                    $this::$download == 1;
                 }
             }
         }

@@ -4,11 +4,12 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Newsletter;
-use backend\controllers\NewsletterSearch;
+use backend\models\NewsletterSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use common\models\User;
 /**
  * NewsletterController implements the CRUD actions for Newsletter model.
  */
@@ -75,10 +76,13 @@ class NewsletterController extends Controller
         $request = Yii::$app->request->post();
         if ($model->load($request))
         {
+            $setting = Yii::$app->setting->get();
+            $user = User::findOne(Yii::$app->user->getId());
+            $request['Newsletter']['text'] = '<div style="direction: rtl; text-align: right; font-size: 12px; font-family: Tahoma">' .  $request['Newsletter']['text'] . '</div><br><br><div style="text-align: center">'.$setting['url'].'</div>';
             $compose = Yii::$app->mailer->compose()
-                ->setFrom('noreply@domain.com')
+                ->setFrom($user->email)
                 ->setTo($model->getAllMails())
-                ->setSubject($request['Newsletter']['title'])
+                ->setSubject($request['Newsletter']['title'] . ' - ' . $setting['title'])
                 ->setHtmlBody($request['Newsletter']['text'])->send();
             if($compose)
             {

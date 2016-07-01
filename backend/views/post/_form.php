@@ -1,5 +1,4 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
@@ -26,30 +25,36 @@ use mrlco\datepicker\Datepicker;
     ]); ?>
 
     <?= $form->field($model, 'short_text')->widget(TinyMce::className(), [
-        'options' => ['rows' => 6],
+        'options' => ['rows' => 12],
         'language' => 'fa',
         'clientOptions' => [
+            'directionality' => "rtl",
+            'entity_encoding' => "utf-8",
+            'relative_urls' => false,
             'plugins' => [
                 "advlist autolink lists link charmap print preview anchor",
                 "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table contextmenu paste"
+                "insertdatetime media table contextmenu paste link image"
             ],
 
-            'toolbar' => "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+            'toolbar' => "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
         ]
     ]);?>
 
     <?= $form->field($model, 'more_text')->widget(TinyMce::className(), [
-        'options' => ['rows' => 6],
+        'options' => ['rows' => 12],
         'language' => 'fa',
         'clientOptions' => [
+            'directionality' => "rtl",
+            'relative_urls' => false,
+            'entity_encoding' => "utf-8",
             'plugins' => [
                 "advlist autolink lists link charmap print preview anchor",
                 "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table contextmenu paste"
+                "insertdatetime media table contextmenu paste link image codesample"
             ],
 
-            'toolbar' => "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+            'toolbar' => "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | codesample"
         ]
     ]);?>
 
@@ -61,7 +66,7 @@ use mrlco\datepicker\Datepicker;
         'options' => ['multiple' => true, 'placeholder' => Yii::t('app', 'Insert Tags')],
         'pluginOptions' => [
             'tags' => true,
-            'maximumInputLength' => 15
+            'maximumInputLength' => 100
         ],
     ]); ?>
 
@@ -73,7 +78,7 @@ use mrlco\datepicker\Datepicker;
         'options' => ['multiple' => true, 'placeholder' => Yii::t('app', 'Insert Keywords')],
         'pluginOptions' => [
             'tags' => true,
-            'maximumInputLength' => 15
+            'maximumInputLength' => 100
         ],
     ]); ?>
 
