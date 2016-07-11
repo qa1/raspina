@@ -37,7 +37,8 @@
             $data = $_POST['data'];
             foreach ($data as $k => $v)
             {
-                if(empty(trim($v)))
+				$v = trim($v); // 
+                if(empty($v))
                 {
                     echo '<div class="error">تمام فیلد ها اجباری هستند لطفا آنها را با دقت پر کنید. <a href="install.php">صفحه نصب رسپینا</a></div>';
                     return false;
